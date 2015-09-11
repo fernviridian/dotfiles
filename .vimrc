@@ -16,3 +16,4 @@ autocmd Syntax * syn match ExtraWhitespace /\s\+\%#\@<!$/ containedin=AL
 syntax on
 colorscheme summerfruit256
 set t_Co=256
+set backspace=indent,eol,start
