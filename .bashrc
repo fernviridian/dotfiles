@@ -40,6 +40,8 @@ alias gs='git status'
 alias gb='git branch'
 alias gcb='git checkout -b'
 alias gpom='git push origin master'
+alias gpo='git push origin'
+alias gd='git diff'
 
 # DOCKER specific stuff
 
@@ -55,11 +57,27 @@ docker_shell(){
   docker exec -it $1 /bin/sh
   # $1 is container id hash
 }
-alias ds=docker_shell
 
+docker_exit(){
+  docker ps --filter "status=exited"
+}
+
+docker_clean(){
+  # remove old stopped containers
+  docker rm $(docker ps --filter "status=exited" -q)
+}
+
+alias ds=docker_shell
+alias dexit=docker_exit
+alias dclean=docker_clean
 alias dcb='docker-compose kill && docker-compose build && docker-compose up'
+alias dcu='docker-compose up'
 alias dcbn='docker-compose kill && docker-compose build --no-cache && docker-compose up'
 alias d='docker'
+alias denv='eval $(docker-machine env default)'
+alias dk='docker kill'
+alias dr='docker run'
+alias dcrm='docker-compose rm'
 
 docker_build(){
   docker build -t $1 .
@@ -68,3 +86,12 @@ docker_build(){
 alias db=docker_build
 alias dp='docker ps'
 alias di='docker images'
+
+
+# vagrant
+
+vagrant_scp(){
+  scp -P 2222 vagrant@127.0.0.1:$1 $2
+}
+
+alias vscp=vagrant_scp
