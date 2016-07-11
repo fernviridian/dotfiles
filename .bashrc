@@ -11,6 +11,9 @@ if [ -f ~/.bash_aliases ] ; then
   source ${HOME}/.bash_aliases
 fi
 
+export GITAWAREPROMPT=~/.bash/git-aware-prompt
+source "${GITAWAREPROMPT}/main.sh"
+
 # Environmental variables
 export PATH=${PATH}:/cat/bin # look in the cat bin
 export MANPATH=${MANPATH}:/cat/man # look in cat for manpages too
@@ -21,7 +24,7 @@ export EDITOR=$(which vim) # sets vim as the standard editor, always
 
 PATH=$PATH:$HOME/.rvm/bin:$HOME/bin # Add RVM to PATH for scripting
 
-export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]$ "
+export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]$ \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 alias ls='ls'
