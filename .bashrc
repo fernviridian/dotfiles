@@ -47,15 +47,6 @@ alias gpo='git push origin'
 alias gd='git diff'
 
 # DOCKER specific stuff
-
-command -v docker-machine >/dev/null 2>&1 && out=$(docker-machine status default)
-
-if [ "$out" == "Running" ]; then
-  # docker machine is running
-  eval $(docker-machine env default)  # get env vars
-  echo "Sourced ENV for docker-machine: default"
-fi
-
 docker_shell(){
   docker exec -it $1 /bin/sh
   # $1 is container id hash
@@ -81,20 +72,42 @@ alias denv='eval $(docker-machine env default)'
 alias dk='docker kill'
 alias dr='docker run'
 alias dcrm='docker-compose rm'
+alias drmi='docker rmi'
+alias dii=docker_image_ids
+alias drmif=docker_remove_all_images
+alias db=docker_build
+alias dp='docker ps'
+alias di='docker images'
+alias dstop='docker rm $(docker ps -a -q)' # remove stopped containers
+alias drmvol="docker volume ls | awk '{print $2}' | grep -v "VOLUME" | xargs docker volume rm"
+alias drmlogs="docker ps | grep -v CONTAINER | awk '{print $1}' | xargs docker inspect --format='{{.LogPath}}' | xargs rm -rf"
+alias dlogsize="docker ps | grep -v CONTAINER | awk '{print $1}' | xargs docker inspect --format='{{.LogPath}}' | xargs du -h"
+
+docker_remove_all_images(){
+  docker ps | awk '{print $1}' | grep -v "CONTAINER ID" | awk '{print $1}' | xargs docker kill
+  docker_image_ids | xargs docker rmi -f 
+}
+
+docker_image_ids(){
+  docker images | grep -v "IMAGE" | awk '{print $3}'
+}
 
 docker_build(){
   docker build -t $1 .
   # build docker in current dir with tag $1
 }
-alias db=docker_build
-alias dp='docker ps'
-alias di='docker images'
-
 
 # vagrant
-
 vagrant_scp(){
   scp -P 2222 vagrant@127.0.0.1:$1 $2
 }
 
 alias vscp=vagrant_scp
+alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
+
+# git send-email google smtp cruft yay perl
+PATH="/Users/ben/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/ben/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/ben/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/ben/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/ben/perl5"; export PERL_MM_OPT;
