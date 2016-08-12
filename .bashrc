@@ -24,7 +24,7 @@ export EDITOR=$(which vim) # sets vim as the standard editor, always
 
 PATH=$PATH:$HOME/.rvm/bin:$HOME/bin # Add RVM to PATH for scripting
 
-export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]$ \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
+export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\] \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 alias ls='ls'
@@ -79,6 +79,7 @@ alias db=docker_build
 alias dp='docker ps'
 alias di='docker images'
 alias dstop='docker rm $(docker ps -a -q)' # remove stopped containers
+alias dvol='docker volume ls'
 alias drmvol="docker volume ls | awk '{print $2}' | grep -v "VOLUME" | xargs docker volume rm"
 alias drmlogs="docker ps | grep -v CONTAINER | awk '{print $1}' | xargs docker inspect --format='{{.LogPath}}' | xargs rm -rf"
 alias dlogsize="docker ps | grep -v CONTAINER | awk '{print $1}' | xargs docker inspect --format='{{.LogPath}}' | xargs du -h"
