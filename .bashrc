@@ -62,6 +62,7 @@ docker_clean(){
 }
 
 alias ds=docker_shell
+alias dc='docker-compose'
 alias dexit=docker_exit
 alias dclean=docker_clean
 alias dcb='docker-compose kill && docker-compose build && docker-compose up'
@@ -83,6 +84,7 @@ alias dvol='docker volume ls'
 alias drmvol="docker volume ls | awk '{print $2}' | grep -v "VOLUME" | xargs docker volume rm"
 alias drmlogs="docker ps | grep -v CONTAINER | awk '{print $1}' | xargs docker inspect --format='{{.LogPath}}' | xargs rm -rf"
 alias dlogsize="docker ps | grep -v CONTAINER | awk '{print $1}' | xargs docker inspect --format='{{.LogPath}}' | xargs du -h"
+alias rc="rancher-compose"
 
 docker_remove_all_images(){
   docker ps | awk '{print $1}' | grep -v "CONTAINER ID" | awk '{print $1}' | xargs docker kill
